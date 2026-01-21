@@ -12,7 +12,7 @@ int main() {
     }
 
     // Setup GPIO pin as output
-    bcm2835_gpio_fsel(LED_PIN, BCM2835_GPIO_FSEL_OUT);
+    bcm2835_gpio_fsel(LED_PIN, BCM2835_GPIO_FSEL_OUTP);
 
     // Initialize virtual sensors
     init_sensors();
