@@ -40,10 +40,4 @@ This repository contains a series of learning projects for Raspberry Pi, focusin
 ## Notes
 - These projects are primarily for learning and demonstration purposes.
 - The code is modular and structured to allow future extensions.
-- For compilation on Raspberry Pi, run:
-
-  ```bash
-  make
-  sudo ./bcm_mock
-```
 
