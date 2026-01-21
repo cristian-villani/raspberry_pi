@@ -1,0 +1,11 @@
+# Object files
+*.o
+
+# Tentative files
+*.ok
+*.old
+*.org
+
+# Executables
+a.out
+system_monitor
