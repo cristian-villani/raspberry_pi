@@ -1,7 +1,8 @@
+
 ---
 - name: Install Timestamp Logger
   hosts: localhost
-  become: yes
+  become: yes   # ensures tasks run as root
   tasks:
 
     - name: Copy log_time.sh to /usr/local/bin
@@ -14,16 +15,24 @@
       copy:
         src: files/systemd/
         dest: /etc/systemd/system/
-        mode: '0644'
         owner: root
         group: root
+        mode: '0644'
 
-    - name: Reload systemd daemon
+    - name: Reload systemd to recognize new units
       command: systemctl daemon-reload
 
-    - name: Enable and start timer
+    - name: Enable and start timestamp-logger.timer
       systemd:
         name: timestamp-logger.timer
         enabled: yes
         state: started
+
+    - name: Verify timer is active
+      command: systemctl list-timers timestamp-logger.timer
+      register: timer_status
+
+    - name: Show timer status
+      debug:
+        msg: "{{ timer_status.stdout }}"
 
