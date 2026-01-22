@@ -1,0 +1,28 @@
+---
+- name: Uninstall Timestamp Logger
+  hosts: localhost
+  become: yes
+  tasks:
+
+    - name: Stop and disable timer
+      systemd:
+        name: timestamp-logger.timer
+        state: stopped
+        enabled: no
+
+    - name: Remove systemd unit files
+      file:
+        path: "/etc/systemd/system/{{ item }}"
+        state: absent
+      loop:
+        - timestamp-logger.service
+        - timestamp-logger.timer
+
+    - name: Remove log_time.sh
+      file:
+        path: /usr/local/bin/log_time.sh
+        state: absent
+
+    - name: Reload systemd daemon
+      command: systemctl daemon-reload
+

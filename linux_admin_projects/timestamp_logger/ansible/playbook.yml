@@ -1,0 +1,29 @@
+---
+- name: Install Timestamp Logger
+  hosts: localhost
+  become: yes
+  tasks:
+
+    - name: Copy log_time.sh to /usr/local/bin
+      copy:
+        src: files/log_time.sh
+        dest: /usr/local/bin/log_time.sh
+        mode: '0755'
+
+    - name: Copy systemd unit files
+      copy:
+        src: files/systemd/
+        dest: /etc/systemd/system/
+        mode: '0644'
+        owner: root
+        group: root
+
+    - name: Reload systemd daemon
+      command: systemctl daemon-reload
+
+    - name: Enable and start timer
+      systemd:
+        name: timestamp-logger.timer
+        enabled: yes
+        state: started
+
