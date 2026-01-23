@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Raspberry Pi Projects – Cristian Villani</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 20px;
+    }
+    a {
+      text-decoration: none;
+      color: #0077cc;
+      font-size: 1.2em;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .project {
+      margin: 20px 0;
+    }
+    .github-link {
+      font-size: 0.8em;
+      display: block;
+      margin-top: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Embedded Linux projects on Raspberry Pi.</h1>
+
+  <p>These Raspberry Pi projects use simulated sensors and focus on Linux system integration, service lifecycle, and automation rather than on the physical sensor layer.</p>
+
+  <div class="project">
+    <a href="https://github.com/cristian-villani/raspberry_pi/tree/main/system_monitor" target="_blank">
+      System Monitor
+    </a>
+  </div>
+
+  <div class="project">
+    <a href="https://github.com/cristian-villani/raspberry_pi/tree/main/virtual_sensors" target="_blank">
+      Virtual Sensors
+    </a>
+  </div>
+
+  <div class="project">
+    <a href="https://github.com/cristian-villani/raspberry_pi/tree/main/bcm_mock" target="_blank">
+      BCM2835 Mock Sensor
+    </a>
+  </div>
+
+ <a class="github-link" href="https://cristian-villani.github.io/index.html">
+    Back to projects Menu
+  </a>
+
+</body>
+</html>
+
