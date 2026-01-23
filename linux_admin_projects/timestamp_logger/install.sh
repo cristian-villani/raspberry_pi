@@ -36,5 +36,11 @@ cp "$TIMER_FILE" /etc/systemd/system/
 systemctl daemon-reload
 systemctl enable --now timestamp-logger.timer
 
+# Trigger the service immediately so we can see it working
+echo "Triggering timestamp-logger service immediately..."
+systemctl start timestamp-logger.service
+
 echo "Installation complete. Timer is active!"
+echo "You can check the latest log entries with:"
+echo "  journalctl -u timestamp-logger.service -n 10 -f"
 

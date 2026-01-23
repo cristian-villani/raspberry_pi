@@ -36,5 +36,10 @@ cp "$TIMER_FILE" /etc/systemd/system/
 systemctl daemon-reload
 systemctl enable --now cpu-monitor.timer
 
-echo "Installation complete. Cpu-monitor is active!"
+# Trigger the service immediately so we can see it working
+echo "Triggering cpu-monitor service immediately..."
+systemctl start cpu-monitor.service
 
+echo "Installation complete. Cpu-monitor is active!"
+echo "You can check the latest log entries with:"
+echo "  journalctl -u cpu-monitor.service -n 10 -f"
