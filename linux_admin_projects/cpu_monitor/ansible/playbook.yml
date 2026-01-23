@@ -1,0 +1,32 @@
+---
+- name: Install CPU Monitor service
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Copy log_cpu.sh to /usr/local/bin/
+      copy:
+        src: log_cpu.sh
+        dest: /usr/local/bin/log_cpu.sh
+        mode: '0755'
+
+    - name: Copy systemd service file
+      copy:
+        src: files/systemd/cpu-monitor.service
+        dest: /etc/systemd/system/cpu-monitor.service
+        mode: '0644'
+
+    - name: Copy systemd timer file
+      copy:
+        src: files/systemd/cpu-monitor.timer
+        dest: /etc/systemd/system/cpu-monitor.timer
+        mode: '0644'
+
+    - name: Reload systemd daemon
+      command: systemctl daemon-reload
+
+    - name: Enable and start cpu-monitor timer
+      systemd:
+        name: cpu-monitor.timer
+        enabled: yes
+        state: started
+

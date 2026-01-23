@@ -10,21 +10,21 @@ fi
 echo "Starting uninstallation..."
 
 # Stop and disable the timer
-systemctl stop timestamp-logger.timer || true
-systemctl disable timestamp-logger.timer || true
+systemctl stop cpu-monitor.timer || true
+systemctl disable cpu-monitor.timer || true
 
 # Remove systemd unit files
-rm -f /etc/systemd/system/timestamp-logger.timer
-rm -f /etc/systemd/system/timestamp-logger.service
+rm -f /etc/systemd/system/cpu-monitor.timer
+rm -f /etc/systemd/system/cpu-monitor.service
 
 # Reload systemd
 systemctl daemon-reload
 
 # Remove main script
-rm -f /usr/local/bin/log_time.sh
+rm -f /usr/local/bin/log_cpu.sh
 
 # Remove log directory
-# rm -rf /var/log/timestamp-logger
+# rm -rf /var/log/cpu-monitor
 
 echo "Uninstallation complete."
 

@@ -6,7 +6,6 @@ It demonstrates:
 - Writing a simple logging script in Bash
 - Managing periodic tasks with **systemd timers**
 - Logging via systemd and journald (stdout/stderr)
-- File-based logging demonstrated in historical scripts
 - Installation and uninstallation procedures
 - Organization of scripts and systemd unit files
 
@@ -15,15 +14,14 @@ It demonstrates:
 ## Repository Structure
 
 ```
-timestamp-logger/
-├── log_time.sh # Main logging script
-├── install.sh # Install script (copies files, enables timer)
-├── uninstall.sh # Uninstall script (removes files and timer)
+cpu-monitor/
+├── log_cpu.sh             # Main logging script
+├── install.sh             # Install script (copies files, enables timer)
+├── uninstall.sh           # Uninstall script (removes files and timer)
 ├── systemd/
-│ ├── timestamp-logger.service
-│ └── timestamp-logger.timer
-├── README.md # Current instructions
-└── README_OLD.md # Previous version of README for reference
+│ ├── cpu-monitor.service
+│ └── cpu-monitor.timer
+└── README.md              # Current instructions
 ```
 
 
@@ -46,7 +44,7 @@ sudo ./install.sh
 What happens:
 
 ```
-log_time.sh is copied to /usr/local/bin/ and made executable
+log_cpu.sh is copied to /usr/local/bin/ and made executable
 
 Logs are written to journald via systemd (stdout/stderr)
 
@@ -60,13 +58,13 @@ The timer is enabled and started automatically
 To see the timer status:
 
 ```
-systemctl list-timers | grep timestamp-logger
+systemctl list-timers | grep cpu-monitor
 ```
 
 To see logs written by the script:
 
 ```
-journalctl -u timestamp-logger.service
+journalctl -u cpu-monitor.service
 ```
 
 
@@ -82,7 +80,7 @@ sudo ./uninstall.sh
 This will:
 
 ```
-Stop and disable the timer
+Stop and disable the cpu monitor
 
 Remove unit files from /etc/systemd/system/
 

@@ -17,11 +17,11 @@ echo "Copying log_time.sh to $SCRIPT_DEST"
 cp "$SCRIPT_SRC" "$SCRIPT_DEST"
 chmod +x "$SCRIPT_DEST"
 
-LOG_DIR="/var/log/timestamp-logger"
-echo "Creating log directory: $LOG_DIR"
-mkdir -p "$LOG_DIR"
-chown root:root "$LOG_DIR"
-chmod 755 "$LOG_DIR"
+# LOG_DIR="/var/log/timestamp-logger"
+# echo "Creating log directory: $LOG_DIR"
+# mkdir -p "$LOG_DIR"
+# chown root:root "$LOG_DIR"
+# chmod 755 "$LOG_DIR"
 
 # Copy systemd unit files from repo
 SYSTEMD_DIR="./systemd"

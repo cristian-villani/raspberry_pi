@@ -1,0 +1,28 @@
+---
+- name: Uninstall CPU Monitor service
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Stop and disable cpu-monitor timer
+      systemd:
+        name: cpu-monitor.timer
+        state: stopped
+        enabled: no
+      ignore_errors: yes
+
+    - name: Remove systemd service and timer files
+      file:
+        path: "/etc/systemd/system/{{ item }}"
+        state: absent
+      loop:
+        - cpu-monitor.service
+        - cpu-monitor.timer
+
+    - name: Reload systemd daemon
+      command: systemctl daemon-reload
+
+    - name: Remove log_cpu.sh script
+      file:
+        path: /usr/local/bin/log_cpu.sh
+        state: absent
+
