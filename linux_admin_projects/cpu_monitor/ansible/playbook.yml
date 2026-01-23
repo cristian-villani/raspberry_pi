@@ -5,7 +5,7 @@
   tasks:
     - name: Copy log_cpu.sh to /usr/local/bin/
       copy:
-        src: log_cpu.sh
+        src: files/log_cpu.sh
         dest: /usr/local/bin/log_cpu.sh
         mode: '0755'
 
@@ -30,3 +30,7 @@
         enabled: yes
         state: started
 
+    - name: Run cpu-monitor service once immediately
+      systemd:
+        name: cpu-monitor.service
+        state: started

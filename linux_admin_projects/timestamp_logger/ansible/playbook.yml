@@ -36,3 +36,7 @@
       debug:
         msg: "{{ timer_status.stdout }}"
 
+    - name: Run timestamp-logger service once immediately
+      systemd:
+        name: timestamp-logger.service
+        state: restarted
