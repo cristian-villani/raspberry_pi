@@ -54,6 +54,20 @@ make
 
 4. Stop the program with Ctrl+C.
 
+
+## Example Output
+
+```
+Starting Virtual Sensors Demo (Ctrl+C to stop)
+[12:47:04] Sensor0: 31, Sensor1: 70, Sensor2: 6.28
+[12:47:05] Sensor0: 27, Sensor1: 91, Sensor2: 7.48
+Alert: Sensor1 > 85!
+[12:47:06] Sensor0: 69, Sensor1: 97, Sensor2: 1.87
+Alert: Sensor1 > 85!
+[12:47:07] Sensor0: 11, Sensor1: 52, Sensor2: 0.19
+Alert: Sensor0 < 20!
+```
+
 ## Suggested improvements
 
 These ideas are meant as **learning exercises** for anyone exploring embedded Linux programming:

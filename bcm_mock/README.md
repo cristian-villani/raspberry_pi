@@ -74,6 +74,20 @@ sudo ./bcm_mock
 
 Note: sudo may be required for GPIO access.
 
+## Example Output
+
+```
+Starting virtual sensors with GPIO output...
+Temp: 40°C  |  Light: 921 lx  |  Pressure: 191 hPa
+Temp: 23°C  |  Light: 90 lx  |  Pressure: 40 hPa
+Temp: 4°C  |  Light: 306 lx  |  Pressure: 36 hPa
+Temp: 46°C  |  Light: 723 lx  |  Pressure: 167 hPa
+Temp: 1°C  |  Light: 624 lx  |  Pressure: 142 hPa
+Temp: 51°C  |  Light: 332 lx  |  Pressure: 170 hPa
+Temp: 42°C  |  Light: 155 lx  |  Pressure: 152 hPa
+Temp: 6°C  |  Light: 557 lx  |  Pressure: 21 hPa
+```
+
 
 ## Suggested Improvements
 
