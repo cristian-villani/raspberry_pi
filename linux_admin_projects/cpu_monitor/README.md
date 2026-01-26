@@ -67,6 +67,17 @@ To see logs written by the script:
 journalctl -u cpu-monitor.service
 ```
 
+## Example Output
+
+```
+2026-01-23 12:20:12 %Cpu(s): 1.8
+2026-01-23 12:20:19 %Cpu(s): 1.7
+2026-01-23 12:20:28 %Cpu(s): 1.1
+2026-01-26 12:56:44 %Cpu(s): 1.4
+2026-01-26 12:56:46 %Cpu(s): 1.1
+2026-01-26 12:56:47 %Cpu(s): 1.1
+```
+
 
 ## Uninstallation
 

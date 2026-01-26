@@ -69,6 +69,19 @@ To see logs written by the script:
 journalctl -u timestamp-logger.service
 ```
 
+## Example Output
+
+```
+2026-01-22 13:55:24 - Service is running
+2026-01-22 13:56:11 - Service is running
+2026-01-22 13:57:29 - Service is running
+2026-01-22 14:00:33 - Service is running
+2026-01-22 14:00:56 - Service is running
+2026-01-26 12:54:40 - Service is running
+2026-01-26 12:54:49 - Service is running
+2026-01-26 12:54:50 - Service is running
+```
+
 
 ## Uninstallation
 
