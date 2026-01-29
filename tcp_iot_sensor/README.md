@@ -38,14 +38,23 @@ port (optional): The server port. Default is 5000.
 
 **Note:** the port argument is optional, but can only be set if a hostname/IP is also provided.
 
-# Example 1: default host and port
+Example 1: default host and port
+
+```
 ./client
+```
 
-# Example 2: specify host
+Example 2: specify host
+
+```
 ./client raspberrypi
+```
 
-# Example 3: specify host and port
+Example 3: specify host and port
+
+```
 ./client raspberrypi 5000
+```
 
 The client sends a simulated sensor reading (random number) every
 second to the server.

@@ -1,2 +1,7 @@
+*.o
+*.old
+
+sensor_log.csv
+
 server
 client
