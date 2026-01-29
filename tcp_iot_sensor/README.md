@@ -57,7 +57,69 @@ Example 3: specify host and port
 ```
 
 The client sends a simulated sensor reading (random number) every
-second to the server.
+5 seconds to the server.
+
+When running the program you should see something like this by the server:
+
+```
+> ./server 
+Socket created successfully!
+Socket bound to port 5000
+Server listening on port 5000
+Client connected!
+Client connected from: 192.168.0.236, Port: 59338
+Hostname: malaga
+Sensor data: humidity: 61%
+Client connected!
+Client connected from: 192.168.0.236, Port: 59944
+Hostname: malaga
+Sensor data: humidity: 62%
+```
+
+And by the client:
+
+```
+> ./client 
+Hostname: malaga
+Got addrinfo information
+=======================
+Printing Information:
+=======================
+flags: 2
+family: 2
+socktype: 1
+protocol: 6
+address: 192.168.0.52
+canonname: raspberrypi
+socket: 3
+Connection established, success!
+Sending sensor value: 61%
+=======================
+Printing Information:
+=======================
+flags: 2
+family: 2
+socktype: 1
+protocol: 6
+address: 192.168.0.52
+canonname: raspberrypi
+socket: 4
+Connection established, success!
+Sending sensor value: 62%
+```
+
+The server collects information in a .csv file which should look like this:
+
+```
+timestamp, node, signal
+2026-01-29 15:54:56, malaga, humidity: 64%
+2026-01-29 15:55:31, malaga, humidity: 48%
+2026-01-29 16:12:19, malaga, humidity: 49%
+2026-01-29 16:12:24, malaga, humidity: 68%
+2026-01-29 16:12:29, malaga, humidity: 53%
+2026-01-29 16:12:34, malaga, humidity: 40%
+2026-01-29 16:12:39, malaga, humidity: 43%
+```
 
 ## Hostname resolution
 
