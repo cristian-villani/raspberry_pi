@@ -13,7 +13,9 @@ This project enables the control and monitoring of digital GPIO pins on a Raspbe
 
 - `mock_sensor.c`: Simulates sensor data (temperature, light, pressure) and updates GPIO pins based on thresholds.
 - `read_sensor.c`: Reads simulated sensor data from `/tmp/temperature`, `/tmp/light`, and `/tmp/pressure`. It also monitors the corresponding GPIO pins for state changes.
-- `bcm2835.h`: Required BCM2835 library for GPIO control. The library must be downloaded manually from the [BCM2835 GitHub page](https://github.com/Screenly/raspberry-pi-bcm2835) or another source.
+- `bcm2835.h`: Required BCM2835 library for GPIO control. The library must be downloaded manually from the 
+[BCM2835 Library - Official Page](http://www.airspayce.com/mikem/bcm2835/)
+or another source.
 
 1. Setup
 
