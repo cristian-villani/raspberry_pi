@@ -81,6 +81,7 @@ int main() {
 
           if(levels[level][y][x] == 'O'){
             nColl++;
+            nPoints += 2;
             levels[level][y][x] = ' ';  // remove object from the level
             printLevel(level);
             mvaddch(old_y, old_x, ' '); // Erase previous character

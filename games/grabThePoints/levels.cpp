@@ -84,7 +84,7 @@ void printLevel(int nLevel){
     mvprintw(row, 0, "%s", levels[nLevel][row]);
   }
   printw("\n");
-  printw("Level: %d\n", nLevel);
+  printw("Level: %d\n", nLevel+1);
   printw("Points: %d\n", nPoints);
   printw("Collected items: %d\n", nColl);
   printw("Lives: %d\n", nLife);
