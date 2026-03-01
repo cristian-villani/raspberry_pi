@@ -1,5 +1,4 @@
-CC=g++
-CFLAGS=-std=c++17
+CC=cc
 LDFLAGS= -lbcm2835
 
 all:	bme280_01
