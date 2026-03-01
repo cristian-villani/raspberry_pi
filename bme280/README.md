@@ -1,6 +1,6 @@
 # Using the BME280 sensor for Temperature and Humidity measurements
 
-![Screenshot](images/circuit.jpg)
+![Circuit](images/circuit.jpg)
 
 ## Compile and run
 
@@ -14,7 +14,7 @@ output and also collect the results in the file "results.txt"
 
 Here is a measurement example:
 
-![Screenshot](images/bath.png)
+![Bath](images/bath.png)
 
 The fan was running continuously but the humidity remains high in this
 small bathroom with no window. Nothing happened in the bathroom apart from
@@ -26,10 +26,11 @@ the sensor responsivity.
 The following picture enhances the night/day difference. The windows were
 opened in the morning of a sunny day in March.
 
-![Screenshot](images/night-day.png)
+![Living Room](images/night-day.png)
 
 The following pictures show the high average humidity despite aeration in two
 different rooms in my flat.
 
-![Screenshot](images/room1.png)
+![Room1](images/room1.png)
 
+![Room2](images/room2.png)
