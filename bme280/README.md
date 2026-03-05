@@ -6,13 +6,13 @@
 
 Install the bcm2835 library first and ensure that your system is handling
 i2c bus communication correctly. Compile the source file with 'make' and
-run the sensor reading program by typing './bme280_01'.
-The program will print the temperature and humidity values to standard
-output and also collect the results in the file "results.txt"
+run the sensor reading program by typing './bme280_01p'.
+The program will print the temperature humidity and pressure values to
+standard output and also collect the results in the file "results.txt"
 
 ## Results
 
-Here is a measurement example:
+Here is a measurement example (only for temperature and humidity):
 
 ![Bath](images/bath.png)
 
