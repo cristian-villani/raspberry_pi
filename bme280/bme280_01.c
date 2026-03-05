@@ -27,18 +27,19 @@ void handleSigint(int sig){
 
 // Function to initialize I2C communication
 void init_i2c() {
-    if (!bcm2835_init()) {
-        printf("bcm2835 initialization failed. Exiting...\n");
-        exit(1);
-    }
-    if (!bcm2835_i2c_begin()) {
-        printf("I2C communication failed. Exiting...\n");
-        bcm2835_close();
-        exit(1);
-    }
-    bcm2835_i2c_setSlaveAddress(BME280_ADDR);
-    bcm2835_i2c_set_baudrate(100000);  // Standard 100kHz baud rate
-    printf("I2C initialized, slave address set to 0x%X\n", BME280_ADDR);
+  if(!bcm2835_init()) {
+    printf("bcm2835 initialization failed. Exiting...\n");
+    exit(1);
+  }
+  if(!bcm2835_i2c_begin()) {
+    printf("I2C communication failed. Exiting...\n");
+    bcm2835_close();
+    exit(1);
+  }
+  bcm2835_i2c_setSlaveAddress(BME280_ADDR);
+  bcm2835_i2c_set_baudrate(100000);  // Standard 100kHz baud rate
+  bcm2835_gpio_fsel(21, BCM2835_GPIO_FSEL_OUTP);
+  printf("I2C initialized, slave address set to 0x%X\n", BME280_ADDR);
 }
 
 // Function to read the raw temperature data (3 bytes)
@@ -199,7 +200,11 @@ int main() {
     printf("Humidity: %.2f%%\n", humidity);
 
     fprintf(fp, "%.2f  %.2f\n", temp_value, humidity);
+    if(humidity > 60.0){
+      bcm2835_gpio_write(21, HIGH);
+    }
     sleep(5);  // Wait for 5 seconds before the next reading
+    bcm2835_gpio_write(21, LOW);
   }
 
   bcm2835_i2c_end();  // End I2C communication
