@@ -1,0 +1,7 @@
+*.o
+co2
+co2b
+old/
+data/
+results/gimp/
+results.txt
