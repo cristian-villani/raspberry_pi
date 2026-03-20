@@ -1,10 +1,10 @@
 # Using the HCSR04 sensor for distance measurement
 
-![Circuit](images/circuit.jpg)
+![Circuit](circuit.jpg)
 
 Circuit detail:
 
-![Circuit detail](images/detail.jpg)
+![Circuit detail](detail.jpg)
 
 
 ## Compile and run
