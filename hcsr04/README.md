@@ -1,5 +1,12 @@
 # Using the HCSR04 sensor for distance measurement
 
+![Circuit](images/circuit.jpg)
+
+Circuit detail:
+
+![Circuit detail](images/detail.jpg)
+
+
 ## Compile and run
 
 Install the bcm2835 library first and compile the source file with 'make'.
