@@ -59,6 +59,11 @@ in CO2 concentration. After 30 Minutes I also opened the window in the small
 room as well. The window remained open for 10 minutes. After this period,
 all windows were closed and normal heating resumed.
 
+The following diagram shows the result of about half an hour measurement 
+at the bus stop on the main Street in my town district:
+
+![Noise](images/co2_busstop.png)
+
 ## Use the program yourself
 
 If you only want to measure the CO2 concentration with the MH-Z19C-sensor
