@@ -60,7 +60,8 @@ room as well. The window remained open for 10 minutes. After this period,
 all windows were closed and normal heating resumed.
 
 The following diagram shows the result of about half an hour measurement 
-at the bus stop on the main Street in my town district:
+at the bus stop on the main Street in my town district. The estimated
+CO2 concentration is represented by the green horizontal line:
 
 ![Noise](images/co2_busstop.png)
 
