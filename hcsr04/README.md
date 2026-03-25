@@ -29,4 +29,6 @@ Distance: 100.26 cm
 ^C
 ```
 
-You can adjust the sensor timing or sensitivity in the program if needed.
+You can adjust the timing delays in the program if needed.
+
+[Results](./results/README.md)
