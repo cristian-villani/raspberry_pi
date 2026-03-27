@@ -1,6 +1,7 @@
 *.o
 co2
 co2b
+co2-bluetooth
 old/
 data/
 results/gimp/

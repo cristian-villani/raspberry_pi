@@ -117,4 +117,46 @@ Messung Nr. 3: 2026-03-15 08:59:49
 
 ```
 
+I have been running a version of the program on my Raspberry Zero which
+is able to communicate via Bluetooth with my mobile phone. This allows
+me to decide when to start the measurement and also send information to
+the Raspberry. If you want to use this version you can compile the program
+by running "make co2-bluetooth", but make sure that your mobile phone
+is connected and your computer is waiting for signals using
+"rfcomm listen". For this purpose, I downloaded the Bluetooth Viewer
+(LITE), available on F-Droid and used the following script which
+runs as a service on my Raspberry Zero:
+
+```
+#!/bin/bash
+
+PHONE_MAC="XX:XX:XX:XX:XX:XX" # Insert your phone MAC-Address here
+
+check_connection() {
+    bluetoothctl info $PHONE_MAC | grep -q 'Connected: yes'
+}
+
+while true; do
+    if check_connection; then
+        echo "Phone is connected."
+
+        # Clean up before starting
+        sudo pkill rfcomm
+        sudo rfcomm release all
+
+        echo "Starting RFCOMM listener..."
+
+        # IMPORTANT: no '&' → block until disconnect
+        sudo rfcomm listen /dev/rfcomm0 1
+
+        echo "Connection lost. Cleaning up..."
+
+        sudo rfcomm release all
+    else
+        echo "Phone not connected, waiting..."
+        sleep 5
+    fi
+done
+```
+
 [Results](./results/README.md)
