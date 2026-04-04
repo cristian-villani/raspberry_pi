@@ -1,0 +1,21 @@
+1. c(CO2): 929 ppm 2026-04-04 20:20:44
+MQ135 Value: 204
+MQ7 Value: 408
+2. c(CO2): 930 ppm 2026-04-04 20:20:51
+MQ135 Value: 212
+MQ7 Value: 422
+3. c(CO2): 948 ppm 2026-04-04 20:20:58
+MQ135 Value: 214
+MQ7 Value: 418
+4. c(CO2): 981 ppm 2026-04-04 20:21:05
+MQ135 Value: 211
+MQ7 Value: 412
+5. c(CO2): 1002 ppm 2026-04-04 20:21:12
+MQ135 Value: 209
+MQ7 Value: 410
+6. c(CO2): 1008 ppm 2026-04-04 20:21:19
+MQ135 Value: 208
+MQ7 Value: 407
+7. c(CO2): 1000 ppm 2026-04-04 20:21:26
+MQ135 Value: 207
+MQ7 Value: 406
