@@ -67,16 +67,9 @@ sudo ./rc01
 
 The RC filter has a cutoff frequency, which depends on the resistor and capacitor values:
 
-fcutoff=12πRC
-f
-cutoff
-	​
-
-=
-2πRC
-1
-	​
-
+```
+fcutoff=1/(2πRC)
+```
 
 For R = 10kΩ and C = 100nF, the cutoff frequency is approximately 159 Hz.
 
