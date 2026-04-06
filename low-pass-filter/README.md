@@ -105,7 +105,7 @@ ADC Value (Channel 2): 572
 
 The results can be visualized by plotting the filtered signal and comparing it with the input signal (square wave). Use gnuplot to plot the ADC readings and the theoretical square wave signal over time. This will allow you to visually confirm the smoothing effect of the RC filter.
 
-![Signal near Cutoff Frequency](images/s100Hz.pgn) 
+![Signal near Cutoff Frequency](images/s100Hz.png) 
 
 In this diagram, we observe the output signal of the low-pass filter at 100 Hz, which is near the cutoff frequency of the filter (approximately 159 Hz). At this frequency, the signal is not completely filtered out but instead undergoes attenuation, causing it to become intermittent and modulated.
 
@@ -113,14 +113,14 @@ The "signal balls" (or bursts) you see represent the periodic peaks of the input
 
 This behavior is expected when signals are passed through filters near the cutoff frequency, demonstrating the filter's frequency response and attenuation characteristics.
 
-![Low frequency Signal](images/s10Hz.pgn) 
+![Low frequency Signal](images/s10Hz.png) 
 
 The diagram above shows a low frequency signal(10Hz), while the two following
 diagrams show the behaviour of a 1kHz and 10kHz signals.
 
-![High Frequency 1](images/s1kHz.pgn) 
+![High Frequency 1](images/s1kHz.png) 
 
-![High Frequency 2](images/s10kHz.pgn) 
+![High Frequency 2](images/s10kHz.png) 
 
 ## Conclusion
 
