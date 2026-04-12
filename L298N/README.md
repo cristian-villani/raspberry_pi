@@ -9,6 +9,7 @@ Circuit detail:
 
 ![Car detail](detail.jpg)
 
+[Watch the video](car.mp4)
 
 ## Wiring
 
