@@ -101,8 +101,8 @@ void motor_backward(int speed){
   printf("Motor backward called...\n");
   bcm2835_gpio_write(IN1, LOW);
   bcm2835_gpio_write(IN2, HIGH);
-  bcm2835_gpio_write(IN3, HIGH);
-  bcm2835_gpio_write(IN4, LOW);
+  bcm2835_gpio_write(IN3, LOW);
+  bcm2835_gpio_write(IN4, HIGH);
 
   set_speed(0, speed);
   set_speed(1, speed);
