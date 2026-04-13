@@ -59,7 +59,6 @@ void motor_init(){
 
   bcm2835_delay(10);
 
-  // Set initial duty cycle = 0 → motors OFF
   bcm2835_pwm_set_data(ENA_CHANNEL, 0);
   bcm2835_pwm_set_data(ENB_CHANNEL, 0);
 }
@@ -110,24 +109,24 @@ void motor_backward(int speed){
 
 void motor_left(int speed){
   printf("Motor left called...\n");
-  bcm2835_gpio_write(IN1, LOW);
+  bcm2835_gpio_write(IN1, HIGH);
   bcm2835_gpio_write(IN2, LOW);
   bcm2835_gpio_write(IN3, LOW);
   bcm2835_gpio_write(IN4, HIGH);
 
-  set_speed(0, 0);
+  set_speed(0, speed);
   set_speed(1, speed);
 }
 
 void motor_right(int speed){
   printf("Motor right called...\n");
-  bcm2835_gpio_write(IN1, HIGH);
-  bcm2835_gpio_write(IN2, LOW);
-  bcm2835_gpio_write(IN3, LOW);
+  bcm2835_gpio_write(IN1, LOW);
+  bcm2835_gpio_write(IN2, HIGH);
+  bcm2835_gpio_write(IN3, HIGH);
   bcm2835_gpio_write(IN4, LOW);
 
   set_speed(0, speed);
-  set_speed(1, 0);
+  set_speed(1, speed);
 }
 
 void motor_accelerate(int current_speed, int target_speed){
