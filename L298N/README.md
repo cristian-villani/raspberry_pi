@@ -50,8 +50,20 @@ Motor forward called...
 
 ## Note
 
-The setup shown here is for demonstration purposes only.
+The setup shown in the photos is for demonstration purposes only.
 
 Four 1.5V batteries are enough to make the wheels move, but they are
 definitely not sufficient for proper driving performance. Use a stronger
 power supply for real use.
+
+For the video, I used a battery box with 8× 1.2 V rechargeable batteries
+and a 3000 mAh power bank to power the Raspberry Pi Zero.
+
+In this setup, the left and right wheels were connected to the corresponding
+left and right motor driver output terminals.
+
+The car server program, which listens for connections on port 5000, can be
+found in the http/ directory.
+
+In the video, my son sent HTTP commands directly to the Raspberry Pi
+Zero’s IP address using the HTTP Shortcut app.
