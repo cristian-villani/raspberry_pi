@@ -4,7 +4,7 @@
 #include <arpa/inet.h>
 #include <signal.h>
 #include <bcm2835.h>
-#include "motor.h"
+#include "../motor/motor.h"
 
 #define PORT 5000
 #define SPEED 280

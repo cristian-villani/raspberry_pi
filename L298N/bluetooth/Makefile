@@ -4,13 +4,13 @@ LDFLAGS=-lbcm2835
 
 MOTOR_DIR=../motor
 
-all: hcar01
+all: bcar01
 
-hcar01: car_server.o
-	$(CC) car_server.o -L$(MOTOR_DIR) -lmotor -o hcar01 $(LDFLAGS)
+bcar01: car_server.o
+	$(CC) car_server.o -L$(MOTOR_DIR) -lmotor -o bcar01 $(LDFLAGS)
 
 car_server.o: car_server.c $(MOTOR_DIR)/motor.h
 	$(CC) $(CFLAGS) car_server.c -o car_server.o
 
 clean:
-	rm -f *.o hcar01
+	rm -f *.o bcar01

@@ -1,3 +1,13 @@
+# --- Object files ---
 *.o
-car01
-test/
+
+# --- Static libraries ---
+*.a
+
+# --- Binaries ---
+test/car01
+http/hcar01
+bluetooth/bcar01
+
+# --- Temporary / experimental ---
+test1/

@@ -1,0 +1,14 @@
+[Unit]
+Description=Bluetooth Auto Connect to Phone
+After=bluetooth.target
+Requires=bluetooth.target
+
+[Service]
+ExecStart=~/bluetooth/bluetooth-auto-connect.sh
+Restart=always
+RestartSec=5
+Type=simple
+User=root
+
+[Install]
+WantedBy=multi-user.target

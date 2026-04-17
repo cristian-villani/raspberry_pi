@@ -1,16 +1,21 @@
-CC=g++
-LDFLAGS= -lbcm2835
+.PHONY: all motor http bluetooth test clean
 
-all:	car01
+all: motor http bluetooth test
 
-car01:	main.o motor.o
-	$(CC) main.o motor.o -o car01 $(LDFLAGS)
+motor:
+	$(MAKE) -C motor
 
-main.o: main.c motor.h
-	$(CC) -c main.c -o main.o
+http:
+	$(MAKE) -C http
 
-motor.o: motor.c motor.h
-	$(CC) -c motor.c -o motor.o
+bluetooth:
+	$(MAKE) -C bluetooth
+
+test:
+	$(MAKE) -C test
 
 clean:
-	rm -f *.o car01
+	$(MAKE) -C motor clean
+	$(MAKE) -C http clean
+	$(MAKE) -C bluetooth clean
+	$(MAKE) -C test clean

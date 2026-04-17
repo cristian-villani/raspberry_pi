@@ -1,0 +1,13 @@
+[Unit]
+Description=Bluetooth RFCOMM Listener and Phone Connection
+After=bluetooth-auto-connect.service
+Requires=bluetooth-auto-connect.service
+
+[Service]
+ExecStart=~/raspberry_pi/L298N/bluetooth/bcar01
+Restart=always
+RestartSec=5
+User=root
+
+[Install]
+WantedBy=multi-user.target
