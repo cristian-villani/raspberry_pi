@@ -84,7 +84,10 @@ Zero's IP address using the HTTP Shortcut app.
 
 ### Bluetooth version
 
-![Car Controller App](media/CarControllerApp.png)
+<p align="center">
+  <img src="media/CarControllerApp.png" width="300">
+</p>
+
 
 [Video Bluetooth Connection](media/bluetooth-control.webm)
 
