@@ -84,6 +84,10 @@ Zero's IP address using the HTTP Shortcut app.
 
 ### Bluetooth version
 
+![Car Controller App](media/CarControllerApp.png)
+
+[Video Bluetooth Connection](media/bluetooth-control.webm)
+
 If the Raspberry Pi and a mobile phone are paired via Bluetooth,
 the Bluetooth control interface can be used.
 
@@ -99,3 +103,4 @@ channel. Only one mobile application can control the car at a time.
 
 The included Android app connects to the Raspberry Pi using its Bluetooth MAC address
 and sends control commands over this channel.
+
