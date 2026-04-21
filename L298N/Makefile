@@ -1,9 +1,12 @@
 .PHONY: all motor http bluetooth test clean
 
-all: motor http bluetooth test
+all: motor sensor http bluetooth test
 
 motor:
 	$(MAKE) -C motor
+
+sensor:
+	$(MAKE) -C sensor
 
 http:
 	$(MAKE) -C http

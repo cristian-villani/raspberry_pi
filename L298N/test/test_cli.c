@@ -4,6 +4,7 @@
 #define SPEED 280
 
 int main() {
+  bcm2835_init();
   motor_init();
 
   // motor_test();

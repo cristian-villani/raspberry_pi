@@ -70,6 +70,11 @@ power supply for real use.
 
 ### Http version
 
+<p align="center">
+  <img src="media/http.png" width="300">
+</p>
+
+
 For the video, I used a battery box with 8 1.2 V rechargeable batteries
 and a 3000 mAh power bank to power the Raspberry Pi Zero.
 
@@ -107,3 +112,10 @@ channel. Only one mobile application can control the car at a time.
 The included Android app connects to the Raspberry Pi using its Bluetooth MAC address
 and sends control commands over this channel.
 
+
+### Ultrasonic Sensor
+
+The last car version uses a HCSR04 Ultrasonic Sensor to detect obstacle distance
+and stops before running into them. The following video shows this behaviour.
+
+[Video Obstacle Detection](media/distance.webm)

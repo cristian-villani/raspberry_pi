@@ -13,6 +13,14 @@
 
 #define SPEED 280
 
+typedef enum {
+    RUNNING,
+    REBOOT_REQUESTED,
+    SHUTDOWN_REQUESTED
+} SystemState;
+
+volatile SystemState system_state = RUNNING;
+
 int fd2;
 
 int wait_for_rfcomm(const char *path, int delay_sec){

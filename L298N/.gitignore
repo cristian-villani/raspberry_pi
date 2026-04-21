@@ -6,6 +6,7 @@
 
 # --- Binaries ---
 test/car01
+test/ultrasonic
 http/hcar01
 bluetooth/bcar01
 

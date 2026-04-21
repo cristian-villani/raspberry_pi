@@ -3,46 +3,67 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <signal.h>
+#include <time.h>
 #include <bcm2835.h>
 #include "../motor/motor.h"
+#include "../sensor/ultrasonic.h"
 
 #define PORT 5000
 #define SPEED 280
+#define MAX_DISTANCE 30
+
+typedef enum {
+  RUNNING,
+  REBOOT_REQUESTED,
+  SHUTDOWN_REQUESTED
+} SystemState;
+
+volatile SystemState system_state = RUNNING;
 
 int server_fd, client_fd;
 
 void cleanup(int sig)
 {
-    printf("\nStopping program...\n");
+  printf("\nStopping program...\n");
 
-    motor_stop();
-    bcm2835_close();
-    close(client_fd);
+  motor_stop();
+  bcm2835_close();
+  close(client_fd);
 
-    printf("GPIO cleaned up\n");
-    exit(0);
+  printf("GPIO cleaned up\n");
+  exit(0);
 }
 
-void led_react(char *request){
+void http_react(const char *request){
   if(strstr(request, "right") != NULL){
     printf("right\n");
-    motor_right(SPEED);
+    // motor_right(SPEED);
+    current_state = RIGHT;
+    current_speed = SPEED;
   }
   else if(strstr(request, "left") != NULL){
     printf("left\n");
-    motor_left(SPEED);
+    // motor_left(SPEED);
+    current_state = LEFT;
+    current_speed = SPEED;
   }
   else if(strstr(request, "up") != NULL){
     printf("up\n");
-    motor_forward(SPEED);
+    // motor_forward(SPEED);
+    current_state = FORWARD;
+    current_speed = SPEED;
   }
   else if(strstr(request, "down") != NULL){
     printf("down\n");
-    motor_backward(SPEED);
+    // motor_backward(SPEED);
+    current_state = BACKWARD;
+    current_speed = SPEED;
   }
   else if(strstr(request, "fire") != NULL){
     printf("fire\n");
-    motor_stop();
+    // motor_stop();
+    current_state = STOP;
+    current_speed = 0;
   }
 }
 
@@ -73,15 +94,57 @@ int main() {
   signal(SIGINT, cleanup); // Ctrl-C Handler
 
   while (1) {
-    client_fd = accept(server_fd, NULL, NULL);
-    read(client_fd, buffer, sizeof(buffer)-1);
-    if (strstr(buffer, "User-Agent: HttpShortcuts")) {
-      // headless response for shortcuts
-      write(client_fd, "HTTP/1.1 200 OK\r\nContent-Length:0\r\n\r\n", 37);
-      led_react(buffer);
-    }else{
-      // full HTML page for browser
-      const char *response =
+    float d = ultrasonic_get_distance();
+    if(d < MAX_DISTANCE && current_state == FORWARD){
+      current_state = STOP;
+      current_speed = 0;
+    }
+    bcm2835_delay(80);
+    motor_update();
+    fd_set set;
+    struct timeval timeout;
+
+    FD_ZERO(&set);
+    FD_SET(server_fd, &set);
+
+    timeout.tv_sec = 0;
+    timeout.tv_usec = 50000; // 50 ms
+
+    int rv = select(server_fd + 1, &set, NULL, NULL, &timeout);
+    if (rv > 0){
+      client_fd = accept(server_fd, NULL, NULL);
+      if (client_fd < 0) continue;
+      int n = read(client_fd, buffer, sizeof(buffer)-1);
+      if(n > 0){
+        buffer[n] = '\0';
+        char method[8];
+        char path[64];
+
+        sscanf(buffer, "%7s %63s", method, path);
+
+        if(strcmp(path, "/up") == 0) http_react("up");
+        else if (strcmp(path, "/down") == 0) http_react("down");
+        else if (strcmp(path, "/left") == 0) http_react("left");
+        else if (strcmp(path, "/right") == 0) http_react("right");
+        else if (strcmp(path, "/fire") == 0) http_react("fire");
+/*
+        if (strstr(buffer, "GET /up ") || strstr(buffer, "up")) {
+            http_react("up");
+        }
+        else if (strstr(buffer, "GET /down ") || strstr(buffer, "down")) {
+            http_react("down");
+        }
+        else if (strstr(buffer, "GET /left ") || strstr(buffer, "left")) {
+            http_react("left");
+        }
+        else if (strstr(buffer, "GET /right ") || strstr(buffer, "right")) {
+            http_react("right");
+        }
+        else if (strstr(buffer, "GET /fire ") || strstr(buffer, "fire")) {
+            http_react("fire");
+        }
+*/
+        const char *response =
         "HTTP/1.1 200 OK\r\n"
         "Content-Type: text/html\r\n"
         "\r\n"
@@ -114,10 +177,10 @@ int main() {
         "</body>"
         "</html>";
 
-      write(client_fd, response, strlen(response));
-      led_react(buffer);
+        write(client_fd, response, strlen(response));
+        close(client_fd);
+      }
     }
-    close(client_fd);
   }
   return 0;
 }
