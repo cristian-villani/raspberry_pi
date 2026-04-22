@@ -30,6 +30,8 @@ static void set_speed(int channel, int speed){
 
 void motor_init(){
   // bcm2835_init();
+  current_state = STOP;
+  current_speed = 0;
 
   // Direction pins
   bcm2835_gpio_fsel(IN1, BCM2835_GPIO_FSEL_OUTP);
