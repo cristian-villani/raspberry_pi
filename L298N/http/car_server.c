@@ -127,23 +127,6 @@ int main() {
         else if (strcmp(path, "/left") == 0) http_react("left");
         else if (strcmp(path, "/right") == 0) http_react("right");
         else if (strcmp(path, "/fire") == 0) http_react("fire");
-/*
-        if (strstr(buffer, "GET /up ") || strstr(buffer, "up")) {
-            http_react("up");
-        }
-        else if (strstr(buffer, "GET /down ") || strstr(buffer, "down")) {
-            http_react("down");
-        }
-        else if (strstr(buffer, "GET /left ") || strstr(buffer, "left")) {
-            http_react("left");
-        }
-        else if (strstr(buffer, "GET /right ") || strstr(buffer, "right")) {
-            http_react("right");
-        }
-        else if (strstr(buffer, "GET /fire ") || strstr(buffer, "fire")) {
-            http_react("fire");
-        }
-*/
         const char *response =
         "HTTP/1.1 200 OK\r\n"
         "Content-Type: text/html\r\n"
