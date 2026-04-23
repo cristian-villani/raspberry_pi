@@ -1,13 +1,11 @@
 #include <stdio.h>
-#include <string.h>
+#include <stdlib.h>
 #include <unistd.h>
-#include <fcntl.h>
-#include <termios.h>
-#include <errno.h>
-#include <time.h>
-#include <sys/stat.h>
-#include <arpa/inet.h>
+#include <string.h>
 #include <signal.h>
+#include <sys/socket.h>
+#include <bluetooth/bluetooth.h>
+#include <bluetooth/rfcomm.h>
 #include <bcm2835.h>
 #include "../motor/motor.h"
 #include "../sensor/ultrasonic.h"
@@ -15,48 +13,63 @@
 #define SPEED 280
 #define MAX_DISTANCE 30
 
-int fd2;
+int server_sock = -1;
+int client_sock = -1;
 
-int wait_for_rfcomm(const char *path, int delay_sec){
-  struct stat st;
-  int attempts = 0;
-  int fde;
+int bt_server_start(){
+  struct sockaddr_rc loc_addr = { 0 };
 
-  while(1){
-    // Check if file exists
-    if(stat(path, &st) == 0){
-      fde = open(path, O_RDWR | O_NOCTTY);
-      if(fde >= 0) return fde; // Success
-      perror("Failed to open /dev/rfcomm0\n");
-    }
-    sleep(delay_sec);
+  server_sock = socket(AF_BLUETOOTH, SOCK_STREAM, BTPROTO_RFCOMM);
+  if(server_sock < 0){
+    perror("socket");
+    return -1;
   }
+
+  loc_addr.rc_family = AF_BLUETOOTH;
+  bdaddr_t any_addr = {{0, 0, 0, 0, 0, 0}};
+  bacpy(&loc_addr.rc_bdaddr, &any_addr);
+  // loc_addr.rc_bdaddr = *BDADDR_ANY;
+  loc_addr.rc_channel = (uint8_t) 1;
+
+  if(bind(server_sock, (struct sockaddr *)&loc_addr, sizeof(loc_addr)) < 0){
+    perror("bind");
+    return -1;
+  }
+
+  listen(server_sock, 1);
+
+  printf("Waiting for Bluetooth connection...\n");
+
+  struct sockaddr_rc rem_addr = { 0 };
+  socklen_t opt = sizeof(rem_addr);
+
+  client_sock = accept(server_sock, (struct sockaddr *)&rem_addr, &opt);
+  if(client_sock < 0){
+    perror("accept");
+    return -1;
+  }
+
+  char addr[19] = { 0 };
+  ba2str(&rem_addr.rc_bdaddr, addr);
+  printf("Connected to %s\n", addr);
+
+  return client_sock;
 }
 
 void cleanup(int sig){
-  printf("\nStopping program...\n");
+  printf("\nCleaning up...\n");
+
+  if (client_sock > 0) close(client_sock);
+  if (server_sock > 0) close(server_sock);
+
   motor_stop();
-  close(fd2);
   bcm2835_close();
 
-  printf("GPIO cleaned up\n");
   exit(0);
 }
 
 int main() {
 
-  printf("Server running and ready for connections\n");
-  fflush(stdout);
-
-  const char *rfcomm_path = "/dev/rfcomm0";
-  fd2 = wait_for_rfcomm(rfcomm_path, 2); // infinite retries(0), 2s interval
-  if(fd2 < 0){
-    perror("Could not open RFCOMM device. Exiting. \n");
-    return 1;
-  }
-  printf("/dev/rfcomm0 is ready and opened!\n");
-
-  char buffer2[100];
 
   // Initialize the BCM2835 library
   if (!bcm2835_init()) {
@@ -64,111 +77,85 @@ int main() {
     return 1;
   }
   motor_init();
+  ultrasonic_init();
 
-  signal(SIGINT, cleanup); // Ctrl-C Handler
-  signal(SIGPIPE, SIG_IGN); // Ctrl-C Handler
+  signal(SIGINT, cleanup);
+  signal(SIGPIPE, SIG_IGN);
+
+  char buf[256] = { 0 };
+
+  fd_set set;
+  struct timeval timeout;
+
+  int fd = bt_server_start();
 
   while(1){
-    bcm2835_delay(200);
-    float d = ultrasonic_get_distance();
-    if(d < MAX_DISTANCE && current_state == FORWARD){
-      current_state = STOP;
-      current_speed = 0;
+    if(fd < 0){
+      fd = bt_server_start();
+      continue;
     }
-    bcm2835_delay(200);
-    motor_update();
-    fd_set set;
-    struct timeval timeout;
-
     FD_ZERO(&set);
-    FD_SET(fd2, &set);
+    FD_SET(fd, &set);
 
     timeout.tv_sec = 0;
     timeout.tv_usec = 50000;
 
-    int rv = select(fd2 + 1, &set, NULL, NULL, &timeout);
+    int rv = select(fd + 1, &set, NULL, NULL, &timeout);
 
     if(rv > 0){
 
-      memset(buffer2, 0, sizeof(buffer2));
-      int n = read(fd2, buffer2, sizeof(buffer2)-1);
-      if(n > 0){
-        buffer2[n] = '\0';
-        printf("Received: %s\n", buffer2);
-
-        if(strncmp(buffer2, "F", 1) == 0){
-          write(fd2, "-----\n", 6);
-          write(fd2, "F\n", 2);
-          write(fd2, "-----\n", 6);
-          // motor_forward(SPEED);
-          current_state = FORWARD;
-          current_speed = SPEED;
-        }
-        else if(strncmp(buffer2, "B", 1) == 0){
-          write(fd2, "-----\n", 6);
-          write(fd2, "B\n", 2);
-          write(fd2, "-----\n", 6);
-          // motor_backward(SPEED);
-          current_state = BACKWARD;
-          current_speed = SPEED;
-        }
-        else if(strncmp(buffer2, "L", 1) == 0){
-          write(fd2, "-----\n", 6);
-          write(fd2, "L\n", 2);
-          write(fd2, "-----\n", 6);
-          // motor_left(SPEED);
-          current_state = LEFT;
-          current_speed = SPEED;
-        }
-        else if(strncmp(buffer2, "R", 1) == 0){
-          write(fd2, "-----\n", 6);
-          write(fd2, "R\n", 2);
-          write(fd2, "-----\n", 6);
-          // motor_right(SPEED);
-          current_state = RIGHT;
-          current_speed = SPEED;
-        }
-        else if(strncmp(buffer2, "S", 1) == 0){
-          write(fd2, "-----\n", 6);
-          write(fd2, "S\n", 2);
-          write(fd2, "-----\n", 6);
-          // motor_stop();
-          current_state = STOP;
-          current_speed = 0;
-        }
-        else if(strncmp(buffer2, "Q", 1) == 0){
-          write(fd2, "-----\n", 6);
-          write(fd2, "Restart request sent\n", 21);
-          write(fd2, "-----\n", 6);
-          // motor_stop();
-          current_state = STOP;
-          current_speed = 0;
-          motor_update();
-          system("shutdown -r now");
-        }
-        else if(strncmp(buffer2, "X", 1) == 0){
-          write(fd2, "-----\n", 6);
-          write(fd2, "Shut down request sent\n", 23);
-          write(fd2, "-----\n", 6);
-          // motor_stop();
-          current_state = STOP;
-          current_speed = 0;
-          motor_update();
-          system("shutdown -h now");
-        }
+      // memset(buffer2, 0, sizeof(buffer2));
+      int n = read(fd, buf, sizeof(buf)-1);
+      if(n <= 0){
+        printf("Client disconnected\n");
+        close(fd);
+        fd = -1;
+        continue;
       }
-      else{
-        perror("Bluetooth disconnected or device gone, waiting for restart\n");
-        close(fd2);
-        fd2 = wait_for_rfcomm(rfcomm_path, 2);
-        if(fd2 < 0){
-          perror("Reopen failed");
-          continue;
-        }
-        printf("Reconnected to /dev/rfcomm0\n");
+      buf[n] = '\0';
+      printf("Received: %s\n", buf);
+
+      if(strncmp(buf, "F", 1) == 0){
+        current_state = FORWARD;
+        current_speed = SPEED;
+      }
+      else if(strncmp(buf, "B", 1) == 0){
+        current_state = BACKWARD;
+        current_speed = SPEED;
+      }
+      else if(strncmp(buf, "L", 1) == 0){
+        current_state = LEFT;
+        current_speed = SPEED;
+      }
+      else if(strncmp(buf, "R", 1) == 0){
+        current_state = RIGHT;
+        current_speed = SPEED;
+      }
+      else if(strncmp(buf, "S", 1) == 0){
+        current_state = STOP;
+        current_speed = 0;
+      }
+      else if(strncmp(buf, "Q", 1) == 0){
+        printf("Restart request sent\n");
+        current_state = STOP;
+        current_speed = 0;
+        motor_update();
+        system("shutdown -r now");
+      }
+      else if(strncmp(buf, "X", 1) == 0){
+        printf("Shutdown request sent\n");
+        current_state = STOP;
+        current_speed = 0;
+        motor_update();
+        system("shutdown -h now");
       }
     }
+    usleep(20000);
+    float d = ultrasonic_get_distance();
+    if(d > 0.05 && d < MAX_DISTANCE && current_state == FORWARD){
+      current_state = STOP;
+      current_speed = 0;
+    }
+    motor_update();
   }
-  close(fd2);
-  return 0;
 }

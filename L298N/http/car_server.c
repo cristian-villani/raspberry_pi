@@ -12,14 +12,6 @@
 #define SPEED 280
 #define MAX_DISTANCE 30
 
-typedef enum {
-  RUNNING,
-  REBOOT_REQUESTED,
-  SHUTDOWN_REQUESTED
-} SystemState;
-
-volatile SystemState system_state = RUNNING;
-
 int server_fd, client_fd;
 
 void cleanup(int sig)
@@ -37,31 +29,26 @@ void cleanup(int sig)
 void http_react(const char *request){
   if(strstr(request, "right") != NULL){
     printf("right\n");
-    // motor_right(SPEED);
     current_state = RIGHT;
     current_speed = SPEED;
   }
   else if(strstr(request, "left") != NULL){
     printf("left\n");
-    // motor_left(SPEED);
     current_state = LEFT;
     current_speed = SPEED;
   }
   else if(strstr(request, "up") != NULL){
     printf("up\n");
-    // motor_forward(SPEED);
     current_state = FORWARD;
     current_speed = SPEED;
   }
   else if(strstr(request, "down") != NULL){
     printf("down\n");
-    // motor_backward(SPEED);
     current_state = BACKWARD;
     current_speed = SPEED;
   }
   else if(strstr(request, "fire") != NULL){
     printf("fire\n");
-    // motor_stop();
     current_state = STOP;
     current_speed = 0;
   }
@@ -78,6 +65,7 @@ int main() {
     return 1;
   }
   motor_init();
+  ultrasonic_init();
 
   server_fd = socket(AF_INET, SOCK_STREAM, 0);
 

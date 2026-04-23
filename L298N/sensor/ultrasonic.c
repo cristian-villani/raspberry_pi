@@ -38,7 +38,8 @@ float ultrasonic_get_distance(){
   // Wait for echo end with timeout
   timeout = bcm2835_st_read() + 30000;
   while(bcm2835_gpio_lev(ECHO_PIN) == HIGH){
-    if (bcm2835_st_read() > timeout) break;
+    if(bcm2835_st_read() > timeout) 
+      return -1;
   }
 
   uint64_t end = bcm2835_st_read();

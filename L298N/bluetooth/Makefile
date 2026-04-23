@@ -1,6 +1,6 @@
 CC=g++
 CFLAGS=-c
-LDFLAGS=-lbcm2835
+LDFLAGS=-lbcm2835 -lbluetooth
 
 MOTOR_DIR=../motor
 SENSOR_DIR=../sensor
